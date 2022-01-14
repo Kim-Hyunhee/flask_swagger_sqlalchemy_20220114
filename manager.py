@@ -3,11 +3,11 @@
 
 from flask_script import Manager
 
-from server import creat_app
+from server import create_app
 
 
 # 특별한 설정이없다면 => 실제 환경이 기본 설정
-app = creat_app('ProductionConfig')
+app = create_app('ProductionConfig')
 
 # 실제 설정으로 만들어둔 앱 => 매니저의 도움을 받아서 열도록 세팅
 manager = Manager(app)

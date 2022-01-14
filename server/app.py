@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful_swagger_2 import Api
 from flask_swagger_ui import get_swaggerui_blueprint
 
-def creat_app(config_name):
+def create_app(config_name):
     app = Flask(__name__)
     
     # 만들어진 앱에 (server>config>환경 설정 클래스) 환경 설정 불러오기
