@@ -25,13 +25,45 @@ class User(Resource):
     def get(self):
         return {
             '임시' : '사용자 정보 조회'
+        }  
+    
+    @swagger.doc({
+        'tags' : ['user'],  # 어떤 종류의 기능인지 분류
+        'description' : '회원가입',
+        'parameters' : [
+            # dict로 파라미터들 명시
+        ],
+        'responses' : {
+            # 200일 때의 응답 예시, 400일 대의 응답 예시 등
+            '200' : {
+                'description' : '회원가입 성공'
+            },
+            '400' : {
+                'description' : '이메일 중복 가입 실패'
+            }
         }
-        
+    })
     def post(self):
         return {
             '임시' : '로그인 기능'
         }
-        
+    
+    @swagger.doc({
+        'tags' : ['user'],  # 어떤 종류의 기능인지 분류
+        'description' : '회원가입',
+        'parameters' : [
+            # dict로 파라미터들 명시
+        ],
+        'responses' : {
+            # 200일 때의 응답 예시, 400일 대의 응답 예시 등
+            '200' : {
+                'description' : '회원가입 성공'
+            },
+            '400' : {
+                'description' : '중복된 이메일 회원가입 실패'
+            }
+        }
+    })    
     def put(self):
         return {
             '임시' : '회원 가입 기능'
