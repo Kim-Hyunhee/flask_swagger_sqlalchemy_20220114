@@ -23,6 +23,8 @@ class User(Resource):
         }
     })
     def get(self):
+        """사용자 정보 조회"""
+        
         return {
             '임시' : '사용자 정보 조회'
         }  
@@ -44,6 +46,8 @@ class User(Resource):
         }
     })
     def post(self):
+        """로그인"""
+        
         return {
             '임시' : '로그인 기능'
         }
@@ -65,6 +69,8 @@ class User(Resource):
         }
     })    
     def put(self):
+        """회원 가입"""
+        
         return {
             '임시' : '회원 가입 기능'
         }
