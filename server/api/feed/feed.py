@@ -70,3 +70,25 @@ class Feed(Resource):
                 'feed' : new_feed.get_data_object()
             }
         }
+    @swagger.doc({
+        'tags': ['feed'],
+        'description': '게시글 목록 조회',
+        'parameters': [
+            
+        ],
+        'responses': {
+            # 200일때의 응답 예시, 400일때의 예시 등.
+            '200': {
+                'description': '게시글 목록 조회',
+            },
+            '400': {
+                'description': '게시글 조회 실패',
+            }
+        }
+    })    
+    def get(self):
+        """모든 게시글 최신순 조회"""
+        return{
+            'code' : 200,
+            'message' : '모든 게시글 조회'
+        }
