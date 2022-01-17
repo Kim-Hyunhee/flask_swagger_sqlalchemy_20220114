@@ -38,17 +38,30 @@ class User(Resource):
     
     @swagger.doc({
         'tags' : ['user'],  # 어떤 종류의 기능인지 분류
-        'description' : '회원가입',
+        'description' : '로그인',
         'parameters' : [
-            # dict로 파라미터들 명시
+            {
+                'name' : 'email',
+                'description' : '로그인에 사용할 이메일',
+                'in' : 'formData',  # query, formData 중 택 1 (header도 향후 사용)
+                'type' : 'string',  # string, integer, number (float), boolean 중 택 1 (향후 file도 사용 예정)
+                'required' : True   # 필수 첨부 여부
+            },
+            {
+                'name' : 'password',
+                'description' : '로그인에 사용할 비밀번호',
+                'in' : 'formData',  # query, formData 중 택 1 (header도 향후 사용)
+                'type' : 'string',  # string, integer, number (float), boolean 중 택 1 (향후 file도 사용 예정)
+                'required' : True   # 필수 첨부 여부
+            },
         ],
         'responses' : {
             # 200일 때의 응답 예시, 400일 대의 응답 예시 등
             '200' : {
-                'description' : '회원가입 성공'
+                'description' : '로그인 성공'
             },
             '400' : {
-                'description' : '이메일 중복 가입 실패'
+                'description' : '로그인 실패'
             }
         }
     })
