@@ -396,7 +396,13 @@ class User(Resource):
         
         args = patch_parser.parse_args()
         
+        if args['name'] == 'name':
+            pass
+        elif args['phone'] == 'phone':
+            pass
+        
         return {
-            '임시' : '회원 정보 수정'
-        }
+            'code' : 400,
+            'message' : 'field 항목은 name / phone 중 하나여야 합니다.'
+        }, 400
     
