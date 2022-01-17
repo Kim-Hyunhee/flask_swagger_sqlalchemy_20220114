@@ -396,10 +396,38 @@ class User(Resource):
         
         args = patch_parser.parse_args()
         
-        if args['name'] == 'name':
-            pass
-        elif args['phone'] == 'phone':
-            pass
+        edit_user = Users.query.filter(Users.id == args['user_id']).first()
+        
+        if not edit_user:
+            return {
+                'code' : 400,
+                'message' : '해당 사용자는 존재하지 않습니다.'
+            }, 400
+        
+        # edit_user에 사용자가 존재함
+        
+        if args['field'] == 'name':
+            edit_user.name == args['value']
+            db.session.add(edit_user)
+            db.session.commit()
+            
+            return {
+                'code' : 200,
+                'message' : '이름 변경에 성공했습니다.'
+            }
+            
+        elif args['field'] == 'phone':
+            edit_user.phone == args['value']
+            db.session.add(edit_user)
+            db.session.commit()
+            
+            return {
+                'code' : 200,
+                'message' : '연락처 변경에 성공했습니다.'
+            }
+        
+
+       
         
         return {
             'code' : 400,
