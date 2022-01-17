@@ -10,6 +10,10 @@ from server import db  # DB에 INSERT / UPDATE 등의 반영을 하기 위한 �
 
 # 각 메쏘드별로 파라미터를 받아보자.
 
+# get메쏘드에서 사용할 파라미터
+get_parser = reqparse.RequestParser()
+get_parser.add_argument('email', type=str, required=False, location='args')
+
 # post메쏘드에서 사용할 파라미터
 post_parser = reqparse.RequestParser()  # post로 들어오는 파라미터를 확인해볼 변수
 post_parser.add_argument('email', type=str, required=True, location='form') #파라미터 이름, 데이터 타입, 필수여부, 첨부된 곳
@@ -32,7 +36,13 @@ class User(Resource):
         'tags': ['user'],  # 어떤 종류의 기능인지 분류.
         'description': '사용자 정보 조회',
         'parameters': [
-            # dict로 파라미터들 명시.
+            {
+                'name' : 'email',
+                'description' : '검색해 볼 이메일 - 완전히 맞는 이메일만 찾아줌',
+                'in' : 'query',
+                'type' : 'string',
+                'required' : False
+            }
         ],
         'responses': {
             # 200일때의 응답 예시, 400일때의 예시 등.
@@ -46,6 +56,34 @@ class User(Resource):
     })
     def get(self):
         """사용자 정보 조회"""
+        
+        args = get_parser.parse_args()
+        
+        # 1. 이메일을 파라미터로 받아서 -> 일치하는 회원 리턴
+        
+        # 이메일 파라미터는 첨부가 되어있지 않을수도 있다. 실제로 첨부 되었는지 확인하고 동작
+        if args['email'] :
+            # args : 일종의 dict로 리턴됨 => 'email' 조회를 해보면 첨부가 안 되었다면 None으로 리턴해줌(있다 없다 판단함)
+            # email 파라미터가 첨부된 상황
+            
+            user_by_email = Users.query.filter(Users.email == args['email']).first()
+            
+            if user_by_email:
+                # 검색 성공
+                return {
+                    'code' : 200,
+                    'message' : '이메일로 사용자 검색 성공',
+                    'user' : user_by_email.get_data_object()
+                }
+            else :
+                # 검색 실패
+                return {
+                    'code' : 400,
+                    'message' : '이메일 사용자 검색결과 없음'
+                }, 400
+
+        # 2. 이름이 파라미터로 왔다면 -> 경진 => 조경진도 리턴 LIKE
+        
         return {
             "임시": "사용자 정보 조회"
         }
