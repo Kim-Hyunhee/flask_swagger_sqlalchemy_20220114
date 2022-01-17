@@ -1,6 +1,7 @@
 # DB의 users 테이블에 연결되는 클래스
 from server import db
 class Users(db.Model):
+    
     # SQLAlchemy 라이브러리의 Model 클래스 활용.
     
     # 1. 어느 테이블? 연결 명시
@@ -13,6 +14,16 @@ class Users(db.Model):
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(15))  # nullable의 기본값은 null 허용.
 
-    # 3. 객체 -> dict로 변환 메쏘드 (응답 내려주는 용도)
+    # 3. 객체 -> dict로 변환 메쏘드 (JSON 응답 내려주는 용도)
+    
+    def get_data_object(self):
+        data = {
+            'id' : self.id,
+            'email' : self.email,
+            'name' : self.name,
+            'phone_num' : self.phone
+        }
+        
+        return data
 
     
