@@ -92,13 +92,21 @@ class User(Resource):
             .filter(Users.email == args['email'])\
             .filter(Users.password == args['password'])\
             .first()  # 쿼리 수행 결과 중 첫 줄.
-        
-        # 일치하는 사람이 없다면? login_user에 None이 대입됨
-        print('로그인 유저 : ', login_user)
+            
+        if login_user:
+            # 로그인 성공 -> 데이터 있다.
+            return {
+                'code' : 200,
+                'message' : '로그인 성공'
+            }
+        else: 
+            # 로그인 실패 => None으로 비어있다.
+            return {
+            'code' : 400,
+            'message' : '로그인 실패'
+        }, 400
 
-        return {
-            "임시": "로그인 기능"
-        }
+        
         
     @swagger.doc({
         'tags': ['user'],  # 어떤 종류의 기능인지 분류.
