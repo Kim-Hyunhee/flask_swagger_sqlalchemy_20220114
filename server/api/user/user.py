@@ -350,3 +350,37 @@ class User(Resource):
             'message' : '회원 삭제 수행 완료'
         }
         
+    @swagger.doc({
+        'tags' : ['user'],
+        'description' : '회원 정보 수정',
+        'parameters' : [
+            {
+                'name' : 'user_id',
+                'description' : '몇 번 사용자의 정보를 수정할 지?',
+                'in' : 'formData',
+                'type' : 'integer',
+                'required' : True
+            },
+            {
+                'name' : 'field',
+                'description' : '어느 항목을 변경할 지?',
+                'in' : 'formData',
+                'type' : 'string',  # name, phone 둘 중 하나로 입력받자
+                'required' : True
+            },
+        ],
+        'responses' : {
+            '200' : {
+                'description' : '회원 정보 변경 성공'
+            },
+            '400' : {
+                'description' : '회원 정보 변경 실패'
+            }
+        }
+    })    
+    def patch(self):
+        """회원 정보 수정"""
+        return {
+            '임시' : '회원 정보 수정'
+        }
+    
