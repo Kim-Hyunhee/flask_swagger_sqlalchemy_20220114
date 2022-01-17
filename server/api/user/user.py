@@ -1,9 +1,12 @@
 # 사용자에 관련된 기능을 수행하는 클래스.
 # 메쏘드를 만들때, get / post / put / patch / delete로 만들면, 알아서 메쏘드로 세팅되도록.
+
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
 from server.model import Users  # users 테이블에 연결할 클래스를 가져오기.
+
+from server import db  # DB에 INSERT / UPDATE 등의 반영을 하기 위한 변수
 
 # 각 메쏘드별로 파라미터를 받아보자.
 
@@ -16,6 +19,7 @@ post_parser.add_argument('password', type=str, required=True, location='form')
 # put_parser / email, password, name, phone 4가지 변수.
 # put 메쏘드에서 받아서 로그로만 출력
 # swagger 문서 작업.
+
 put_parser = reqparse.RequestParser()
 put_parser.add_argument('email', type=str, required=True, location='form')
 put_parser.add_argument('password', type=str, required=True, location='form')
@@ -110,7 +114,6 @@ class User(Resource):
         }, 400
 
         
-        
     @swagger.doc({
         'tags': ['user'],  # 어떤 종류의 기능인지 분류.
         'description': '회원가입',
@@ -159,10 +162,20 @@ class User(Resource):
         
         args = put_parser.parse_args()
         
-        print(f"이메일 : {args['email']}")
-        print(f"비밀번호 : {args['password']}")
-        print(f"이름 : {args['name']}")
-        print(f"전화번호 : {args['phone']}")
+        # 파라미터들을 => users 테이블의 row로 추가 (INSERT INTO -> ORM SQLAlchemy로)
+        
+        # 객체 지향 : 새로운 데이터 추가 -> 새 인스턴스를 만들자
+        
+        new_user = Users()
+        new_user.email = args['email']
+        new_user.password = args['password']
+        new_user.name = args['name']
+        new_user.phone = args['phone']
+        
+        # new_user의 객체를 -> DB에 등록 준비 -> 확정
+        
+        db.session.add(new_user)
+        db.session.commit()
         
         return {
             "임시": "회원가입 기능"
