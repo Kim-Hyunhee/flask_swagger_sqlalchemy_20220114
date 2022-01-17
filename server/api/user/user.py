@@ -38,7 +38,7 @@ delete_parser.add_argument('user_id', type=int, required=True, location='args')
 patch_parser = reqparse.RequestParser()
 patch_parser.add_argument('user_id', type=int, required=True, location='form')
 patch_parser.add_argument('field', type=str, required=True, location='form')
-patch_parser.add_argument('calue', type=str, required=True, location='form')
+patch_parser.add_argument('value', type=str, required=True, location='form')
 
 class User(Resource):
     
@@ -368,9 +368,10 @@ class User(Resource):
             },
             {
                 'name' : 'field',
-                'description' : '어느 항목을 변경할 지?',
+                'description' : '어느 항목을 변경할 지? - name / phone 중 하나로 입력해주세요.',
                 'in' : 'formData',
                 'type' : 'string',  # name, phone 둘 중 하나로 입력받자
+                'enum' : ['name', 'phone'],
                 'required' : True
             },
             {
