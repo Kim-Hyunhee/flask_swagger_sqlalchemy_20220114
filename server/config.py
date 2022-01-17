@@ -13,6 +13,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://admin:dkakwhs7!!"+\
                             "@my-first-db-test.cnwx3d2hbrca.ap-northeast-2.rds.amazonaws.com/my_sns"
     
+    # DB 변경 추적 기능 꺼두기
+    SQLALCHEMY_DATABASE_URI = False
+    
 class ProductionConfig(Config):
     # 기본 설정 그대로 실 서버에서도 적용
     pass
