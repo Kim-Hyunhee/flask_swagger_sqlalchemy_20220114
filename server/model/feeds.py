@@ -12,7 +12,7 @@ class Feeds(db.Model):
     # 외래키로 설정된 관계를 ORM으로 표현해보자
     writer = db.relationship('Users')
     
-    def get_data_object(self):
+    def get_data_object(self, need_writer=True):
         data = {
             'id' : self.id,
             'user_id' : self.user_id,
@@ -23,6 +23,8 @@ class Feeds(db.Model):
         }
         
         # 이 글의 작성자가 누구인지 알 수 있다면 json을 만들 때마다 자동 첨부되면 편하겠다.
+        if need_writer :
+            data['writer'] == self.writer.get_data_object(),
         
         
         return data
