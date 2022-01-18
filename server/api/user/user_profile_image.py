@@ -56,10 +56,16 @@ class UserProfileImage(Resource):
         # args['profile_image'] 는 => list로 구성된 경우가 많음
         
         for file in args['profile_image']:
-            print(file)  # file : 파일 이름 / 실제 이미지 등 본문이 분리된 형태
+            # file : 파일 이름 / 실제 이미지 등 본문이 분리된 형태
             
-            # 파일 이름 저장됨 => S3 버킷에 저장될 경로 생성에 활용
-            print(file.filename)
+            # 파일 이름 저장됨 => S3 버킷에 저장될 경로 생성에 활용 -> 이름 중복 발생 소지 있음
+            # 파일 이름은 재가공 (누가_언제), 확장자(.jpg)만 가져다 사용
+            # ex. PC 카카오톡 파일 전송 -> 다운로드 : 보낸 파일 이름을 무시하고 KaKao_?????.jpg 등으로 받아짐
+            
+            # 1. 파일 이름 재가공
+            # 2. 확장자 추출
+            
+            # 최종 경로 => 1,2의 합체 + S3의 폴더 지정
             s3_file_path = f'images/profile_imgs/{file.filename}'   # 올라갈 경로 생성
             
             # 파일 본문도 따로 저장 => 실제로 S3 경로에 업로드
