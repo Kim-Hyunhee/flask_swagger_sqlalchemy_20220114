@@ -19,12 +19,12 @@ class Users(db.Model):
     profile_img_url = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp()) # 일반 datetime.datetiem.now() => 작업 PC 서버의 시간이 기록됨. => DB 현재시간 아님.
     retired_at = db.Column(db.DateTime)
-
+    
     # cf) Feeds테이블에서, Users로 외래키를 들고 연결 설정함.
     #  Users의 입장에서는 => Feeds테이블에서 본인을 참조하는 row들이 여러개 있을 예정.
     my_feeds = db.relationship('Feeds', backref='writer')
-
-
+    
+    
     # 3. 객체 -> dict로 변환 메쏘드 (JSON 응답 내려주는 용도)
     
     # 사용자 입장에서는 게시글 정보가 항상 필요한건 아님.
@@ -48,3 +48,4 @@ class Users(db.Model):
         
         
         return data
+    

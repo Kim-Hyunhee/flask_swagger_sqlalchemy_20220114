@@ -11,17 +11,17 @@ class Config(object):
     # SQLAlchemy 라이브러리가, 어떤 변수를 끌어다 쓸지도 미리 지정되어있음. => 변수이름 바꾸면 안됨.
     # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://아이디:비밀번호@DB호스트주소/논리DB이름"
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://admin:dkakwhs7!!"+\
-                            "@my-first-db-test.cnwx3d2hbrca.ap-northeast-2.rds.amazonaws.com/my_sns"
+                            "my-first-db-test.cnwx3d2hbrca.ap-northeast-2.rds.amazonaws.com"
     
     # DB 변경 추적 기능 꺼두기
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # S3 접속하기 위한 정보들을 변수들로 저장
+    # S3 접속 정보들을 변수들로 저장
     AWS_ACCESS_KEY_ID = 'AKIAUZHC2SM3JZRVDSNS'
     AWS_SECRET_ACCESS_KEY = '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'
-    AWS_S3_BUCKET_NAME = 'pythonproject202201khh'  # 어느 저장소에 저장할 것인지 이름
+    AWS_S3_BUCKET_NAME = 'pythonproject202201khh' # 어느 저장소에 저장할건지. 이름
     
-    # 토큰 발급용 암호화 로직 이름 / 사용할 키 값
+    # 토큰 발급용 암호화 로직 이름 / 사용할 키값
     JWT_ALGORITHM = 'HS512'
     JWT_SECRET = 'my_strong_key' #임시 문구. 원하는대로 변경. (타인 노출 되면 안됨)
     
@@ -33,4 +33,4 @@ class TestConfig(Config):
     TESTING = True  # 테스팅 환경이 맞다고 설정.
     
 class DebugConfig(Config):
-    DEBUG = True # 개발 모드가 맞다고 설정.
+    DEBUG = True # 개발모드가 맞다고 설정.

@@ -8,7 +8,7 @@ class Feeds(db.Model):
     lecture_id = db.Column(db.Integer, db.ForeignKey('lectures.id')) # null이면, 특정 강의에 대한 글 아님.
     content = db.Column(db.TEXT, nullable=False) # TEXT 컬럼 대응
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-
+    
     # ORM으로 관계 표현 (SQLAlchemy)의 정석 => 부모의 입장에서, 자식목록을 갖고있자.
     # backref => 자식 테이블 모델의 입장에서, 본인을 찾아올때 사용할 변수의 이름을 지정.
     feed_images = db.relationship('FeedImages', backref='feed')

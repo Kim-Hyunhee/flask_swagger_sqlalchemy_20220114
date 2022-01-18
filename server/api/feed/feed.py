@@ -24,10 +24,10 @@ class Feed(Resource):
         'description': '게시글 등록하기',
         'parameters': [
             {
-                'name': 'user_id',
-                'description': '어느 사용자가 쓴건지',
-                'in': 'formData',
-                'type': 'integer',
+                'name': 'X-Http-Token',
+                'description': '어느 사용자인지를, 토큰으로',
+                'in': 'header',
+                'type': 'string',
                 'required': True
             },
             {
@@ -64,6 +64,22 @@ class Feed(Resource):
     })
     def post(self):
         """ 게시글 등록하기 """
+        
+        token_args = token_parser.parse_args()
+        
+        print('받아온 토큰 : ', token_args['X-Http-Token'])
+        
+        user = decode_token( token_args['X-Http-Token'] )
+        
+        if user:
+            return {
+                'user': user.get_data_object()
+            }
+        else:
+            return {
+                'user': None,
+                'message': '잘못된 토큰이 들어왔습니다.'
+            }, 403
         
         args = post_parser.parse_args()
         
