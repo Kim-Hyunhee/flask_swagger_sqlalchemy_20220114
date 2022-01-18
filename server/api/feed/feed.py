@@ -10,6 +10,7 @@ from werkzeug.datastructures import FileStorage
 
 from server import db
 from server.model import Feeds, Users, FeedImages
+from server.api.utils import token_required
 
 post_parser = reqparse.RequestParser()
 post_parser.add_argument('user_id', type=int, required=True, location='form')
@@ -62,25 +63,9 @@ class Feed(Resource):
             }
         }
     })
+    @token_required
     def post(self):
         """ 게시글 등록하기 """
-        
-        token_args = token_parser.parse_args()
-        
-        print('받아온 토큰 : ', token_args['X-Http-Token'])
-        
-        user = decode_token( token_args['X-Http-Token'] )
-        
-        if user:
-            return {
-                'user': user.get_data_object()
-            }
-        else:
-            return {
-                'user': None,
-                'message': '잘못된 토큰이 들어왔습니다.'
-            }, 403
-        
         args = post_parser.parse_args()
         
         new_feed = Feeds()
@@ -168,6 +153,7 @@ class Feed(Resource):
             }
         }
     })
+    @token_required
     def get(self):
         """ 모든 게시글 최신순 조회 """
         
