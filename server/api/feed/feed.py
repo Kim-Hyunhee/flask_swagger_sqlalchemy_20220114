@@ -103,11 +103,10 @@ class Feed(Resource):
                 now_number = round(time.time() * 10000)
                 
                 s3_file_name = f"images/feed_images/MySNS_{encrypted_user_email}_{now_number}{file_extension}"
-
+                
                 # 2. aws s3에 파일 업로드
-                image_body = image.stream.body()
                 image_body = image.stream.read()
-
+                
                 aws_s3\
                     .Bucket(current_app.config['AWS_S3_BUCKET_NAME'])\
                     .put_object(Key=s3_file_name, Body=image_body)
@@ -123,8 +122,10 @@ class Feed(Resource):
                 
                 db.session.add(feed_img)
                 
-            # DB에 추가할 객체는 for문을 통해서 모두 등록 = >  commit은 for 외부에서 한 번에 몰아서    
-            db.session.commit()  # 1번 실행마다 DB 서버에 1회 접근 - for 내부에서 작성 : 반복적으로 DB 서버 접근
+            # DB에 추가할 객체는 for문 통해 모두 등록 => commit은 for 외부에서 한번에 몰아서.
+            db.session.commit() # 1번 실행마다 DB 서버에 1회 접근 - for 내부 : 반복적으로 DB 서버 접근.
+                
+                
                 
                 
         
@@ -154,7 +155,7 @@ class Feed(Resource):
     def get(self):
         """ 모든 게시글 최신순 조회 """
         
-        # 모든 게시글 -> 생성 일시 역순으로 -> 최신순. (SQL : ORDER BY + DESC => ORM으로?)
+        # 모든 게시글 -> 생성일시 역순으로 -> 최신순. (SQL : ORDER BY + DESC => ORM으로?)
         feed_data_arr = Feeds.query.order_by(Feeds.created_at.desc()).all()
         
         feeds = [ row.get_data_object()  for row in feed_data_arr ]

@@ -14,7 +14,7 @@ class FeedImages(db.Model):
             'feed_id': self.feed_id,
             'img_url': self.img_url,
         }
-        
+
         print('내 부모 : ', self.feed)
-        
-        return data
+
+        return data 

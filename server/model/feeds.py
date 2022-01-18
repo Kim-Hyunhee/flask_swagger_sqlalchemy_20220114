@@ -12,12 +12,13 @@ class Feeds(db.Model):
     # 외래키로 설정된 관계를 ORM으로 표현해보자.
     writer = db.relationship('Users')
     lecture = db.relationship('Lectures')
-    
-    # ORM으로 관계 표현 (SQLAlchemy)의 정석 => 부모의 입장에서 자식 목록을 갖고 있자
-    # backref => 자식 테이블 모델의 입장에서 본인을 찾아올 때 사용할 변수의 이름을 지정
-    feed_images = db.relationship('FeedImages', backref= 'feed')
-    
-    
+
+    # ORM으로 관계 표현 (SQLAlchemy)의 정석 => 부모의 입장에서, 자식목록을 갖고있자.
+    feed_images = db.relationship('FeedImages')
+    # backref => 자식 테이블 모델의 입장에서, 본인을 찾아올때 사용할 변수의 이름을 지정.
+    feed_images = db.relationship('FeedImages', backref='feed')
+
+
     def get_data_object(self, need_writer=True):
         data = {
             'id': self.id,
@@ -25,7 +26,7 @@ class Feeds(db.Model):
             'lecture_id': self.lecture_id,
             'content': self.content,
             'created_at': str(self.created_at),
-            'images' : [ fi.get_data_object() for fi in self.feed_images ]
+            'images': [ fi.get_data_object()  for fi in self.feed_images ]
         }
         
         
@@ -33,7 +34,7 @@ class Feeds(db.Model):
         if need_writer:
             data['writer'] = self.writer.get_data_object()
         
-        # 이 글이 어느 강의에 대해 쓰인 것인지 첨부
+        # 이 글이 어느 강의에 대해 쓰인건지도 첨부.
         data['lecture'] = self.lecture.get_data_object()
         
         return data
