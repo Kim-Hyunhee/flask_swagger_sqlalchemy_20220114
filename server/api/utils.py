@@ -4,13 +4,13 @@
 from functools import wraps
 import jwt
 
-from flask import current_app, g  # g: global 프로젝트 전역에서 공유할 수 있는 공간
+from flask import current_app, g # g: global 프로젝트 전역에서 공유할 수 있는 공간.
 from flask_restful import reqparse
 
 from server.model import Users
 
 token_parser = reqparse.RequestParser()
-token_parser.add_argument('X-http-Token', type=str, required=True, location='headers')
+token_parser.add_argument('X-Http-Token', type=str, required=True, location='headers') # 토큰을 받아오는 파서.
 
 # 토큰 만드는 함수  =>  사용자를 인증하는 용도. => 어떤 사용자에대한 토큰?
 def encode_token(user):
@@ -53,35 +53,35 @@ def decode_token(token):
         return None  # 사용자도 찾아내지 못했다고 리턴.
     
     
-# 데코레이터 사용 => 추가 합수에 적힌 코드를 먼저 실행하고 -> 실제 함수 이어서 진행
+# 데코레이터 사용 =>  추가함수에 적힌 코드를 먼저 실행하고 -> 실제 함수 이어서 진행.
 # @추가함수
-# def 함수 이름:
+# def 함수이름:
 
 def token_required(func):
     @wraps(func)
-    def decorator(*args, **kwargs):  # 어떤 모양의 함수든 가능
-        # 실제 함수 내용이 시작되기 전에 먼저 해 줄 함수
+    def decorator(*args, **kwargs): # 어떤 모양의 함수던 가능.
+        # 실제 함수 내용이 시작되기전에, 먼저 해줄 함수.
         
-        # 1. 토큰 파라미터를 받자
+        # 1. 토큰 파라미터를 받자.
         args = token_parser.parse_args()
         
-        # 2. 그 토큰으로 실제 사용자 추출해보자
+        # 2. 그 토큰으로 실제 사용자 추출해보자.
         user = decode_token(args['X-Http-Token'])
         
-        # 3-1. 사용자가 제대로 나왔다 => 올바른 토큰 => 원래 함수의 내용 실행
+        # 3.1. 사용자가 제대로 나왔다 => 올바른 토큰 => 원래 함수의 내용 실행
         if user:
             
-            # 토큰으로 사용자를 찾아냈다면 => 원본 함수에서도 그 사용자를 가져다 쓰면 편하겠다.
-            # 전역 변수를 이용해서 사용자를 전달하자
+            # 토큰으로 사용자를 찾아냈다면 => 원본 함수에서도, 그 사용자를 가져다 쓰면 편하겠다.
+            # 전역변수를 이용해서, 사용자를 전달하자.
             g.user = user
             
-            return func(*args, **kwargs)  # 원본 함수 내용 실행. 결과 리턴
+            return func(*args, **kwargs) # 원본 함수 내용 실행. 결과 리턴.
         
-        # 3-2. 사용자가 안 나왔다(None) => 잘못된 토큰 => 403 에러 리턴
+        # 3.2. 사용자가 안나왔다 (None) => 잘못된 토큰 => 403 에러 리턴.
         else:
             return {
-                'code' : 403,
-                'message' : '올바르지 않은 토큰입니다.'
+                'code': 403,
+                'message': '올바르지 않은 토큰입니다.'
             }, 403
             
     # token_required 이름표가 붙은 함수들에게 => decorator 함수 전달
