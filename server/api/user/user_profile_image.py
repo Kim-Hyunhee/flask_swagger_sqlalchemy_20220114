@@ -56,7 +56,15 @@ class UserProfileImage(Resource):
         # args['profile_image'] 는 => list로 구성된 경우가 많음
         
         for file in args['profile_image']:
-            print(file)
+            print(file)  # file : 파일 이름 / 실제 이미지 등 본문이 분리된 형태
+            
+            # 파일 이름 저장됨 => S3 버킷에 저장될 경로 생성에 활용
+            print(file.filename)
+            s3_file_path = f'images/profile_imgs/{file.filename}'   # 올라갈 경로 생성
+            
+            # 파일 본문도 따로 저장 => 실제로 S3 경로에 업로드
+            file_body = file.stream.read()  # 올려줄 파일
+            
         
         return {
             '임시' : '사용자 프사 등록 기능'
