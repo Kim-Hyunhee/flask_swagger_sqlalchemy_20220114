@@ -3,7 +3,7 @@ import time
 import os
 import hashlib # str -> 암호화된 문구로 변경.
 
-from flask import current_app
+from flask import current_app, g
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 from werkzeug.datastructures import FileStorage
@@ -68,8 +68,10 @@ class Feed(Resource):
         """ 게시글 등록하기 """
         args = post_parser.parse_args()
         
+        user = g.user  # 전역 변수에 저장된 토큰에서 뽑아낸 사용자를 변수에 저장
+        
         new_feed = Feeds()
-        new_feed.user_id = args['user_id']
+        new_feed.user_id = user.id
         new_feed.lecture_id = args['lecture_id']
         new_feed.content = args['content']
         
@@ -85,7 +87,7 @@ class Feed(Resource):
         if args['feed_images']:   # 사진이 파라미터에 첨부되었나?
             
             # 1. 사용자 누구?
-            upload_user = Users.query.filter(Users.id == args['user_id']).first()
+            upload_user = user
             
             # 2. AWS 접속 도구
             aws_s3 = boto3.resource('s3',\
