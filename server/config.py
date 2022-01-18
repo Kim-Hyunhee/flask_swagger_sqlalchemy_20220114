@@ -21,6 +21,10 @@ class Config(object):
     AWS_SECRET_ACCESS_KEY = 'cQV2q/o8SIUcBlsVqb3zEUxVnkKnQgRtuWqqQRi5'
     AWS_S3_BUCKET_NAME = 'pythonproject202201khh'  # 어느 저장소에 저장할 것인지 이름
     
+    # 토큰 발급용 암호화 로직 이름 / 사용할 키 값
+    JWT_ALGORITHM = 'HS512'
+    JWT_SECRET = 'my_strong_key' #임시 문구. 원하는대로 변경. (타인 노출 되면 안됨)
+    
 class ProductionConfig(Config):
     # 기본 설정 그대로. 실 서버에서도.
     pass
