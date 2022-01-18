@@ -90,7 +90,7 @@ class Feed(Resource):
                 
                 # 1. 파일 이름(중복 회피) 재가공
                 # 사용자 id 암호화, 현재 시간 숫자로
-                
+                s3_file_name = f"images/feed_images/MySNS_{사용자id암호화}_{현재시간숫자값}{. 확장자}"
                 
                 # 2. aws s3에 파일 업로드
                 
