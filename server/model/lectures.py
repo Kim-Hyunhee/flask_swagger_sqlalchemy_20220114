@@ -6,7 +6,7 @@ class Lectures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=False)
     campus = db.Column(db.String(20), nullable=False)
-    teacher_id = db.Column(db.Integer, db.ForignKey('users.id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def get_data_object(self):
         data = {
