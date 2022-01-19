@@ -9,7 +9,7 @@ class Config(object):
     
     # SQLAlchemy가 접속할 DB 연결 정보 (URI)
     # SQLAlchemy 라이브러리가, 어떤 변수를 끌어다 쓸지도 미리 지정되어있음. => 변수이름 바꾸면 안됨.
-    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://아이디:비밀번호@DB호스트주소/논리DB이름"
+    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql:// 아이디:비밀번호 @DB호스트주소 / 논리DB이름"
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://admin:dkakwhs7!!"+\
                             "@my-first-db-test.cnwx3d2hbrca.ap-northeast-2.rds.amazonaws.com/my_sns"
     
