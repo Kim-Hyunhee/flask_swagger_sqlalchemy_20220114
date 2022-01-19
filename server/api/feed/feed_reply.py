@@ -7,7 +7,6 @@ from server.model import FeedReplies
 from server.api.utils import token_required
 
 post_parser = reqparse.RequestParser()
-post_parser.add_argument('feed_id', type=int, required=True, location='form')
 post_parser.add_argument('content', type=str, required=True, location='form')
 
 put_parser = reqparse.RequestParser()
@@ -31,7 +30,7 @@ class FeedReply(Resource):
             {
                 'name': 'feed_id',
                 'description': '어느 게시글에 남긴 댓글인지',
-                'in': 'formData',
+                'in': 'path',
                 'type': 'integer',
                 'required': True
             },
@@ -53,7 +52,7 @@ class FeedReply(Resource):
         }
     })
     @token_required
-    def post(self):
+    def post(self, feed_id):
         """ 댓글 등록하기 """
         args = post_parser.parse_args()
         
@@ -61,7 +60,7 @@ class FeedReply(Resource):
         
         # FeedReplies 객체 생성 -> 데이터 기입 -> db 전달
         new_reply = FeedReplies()
-        new_reply.feed_id = args['feed_id']
+        new_reply.feed_id = feed_id
         new_reply.user_id = user.id
         new_reply.content = args['content']
         
@@ -110,13 +109,12 @@ class FeedReply(Resource):
         'responses': {
             '200': {
                 'description': '수정 성공',
-            },
-            
+            },            
         }
     })
     @token_required
     def put(self):
-        """ 댓글 수정하기 """        
+        """ 댓글 수정하기 """               
         return {
             'code': 200,
             'message': '댓글 수정 성공',
