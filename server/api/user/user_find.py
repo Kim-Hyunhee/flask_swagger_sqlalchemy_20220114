@@ -53,7 +53,7 @@ class UserFind(Resource):
             .filter(Users.phone == args['phone'])\
             .first()
             
-        if user in None :
+        if user is None :
             return {
                 'code' : 400,
                 'message' : '이름 / 폰번 둘 다 맞게 입력해야 합니다.'
@@ -76,7 +76,7 @@ class UserFind(Resource):
             'user_id' : 'cho881020',
             'sender' : '010-5112-3237',
             'receiver' : user.phone,
-            'msg' : f"가입하신 계정은 [{user.email}]입니다."
+            'msg' : f"-MySNS 계정안내-\n가입하신 계정은 [{user.email}]입니다."
         }
         
         requests.post(url=sms_url, data=send_data)
