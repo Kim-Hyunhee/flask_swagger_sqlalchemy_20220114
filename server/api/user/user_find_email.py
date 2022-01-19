@@ -1,4 +1,3 @@
-from ast import arg
 import requests
 
 from flask import current_app, g
