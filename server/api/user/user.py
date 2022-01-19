@@ -9,7 +9,7 @@ from flask_restful_swagger_2 import swagger
 
 from server.api.utils import encode_token, token_required
 from server.model import Users  # users 테이블에 연결할 클래스를 가져오기.
-
+ 
 from server import db # DB에 INSERT / UPDATE 등의 반영을 하기 위한 변수.
 
 # 각 메쏘드별로 파라미터를 받아보자.
@@ -285,7 +285,7 @@ class User(Resource):
         
         new_user =  Users()
         new_user.email = args['email']
-        new_user.password = args['password']
+        new_user.password = args['password']  # password = 비밀번호 만 실행해도 알아서 암호화되어 들어가도록
         new_user.name = args['name']
         new_user.phone = args['phone']
         
