@@ -34,6 +34,12 @@ class AdminDashboard (Resource):
         # print(lecture_fee_amount)  => JSON 응답으로 내려갈 수 없다. 가공 처리 필요
         
         amount_list = [ {'lecture_title' : row[0], 'amount' : int(row[1]), }  for row in lecture_fee_amount ]
+        
+        
+        # 모든 남성 유저 목록 출력
+        male_users = Users.query.filter(Users.is_female==False).all()
+        
+        print(male_users)
 
                      
         return {
