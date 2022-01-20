@@ -65,13 +65,33 @@ class AdminDashboard (Resource):
             
         date_amounts = [ ]
         
-        for row in amount_by_date_list:
+        # 매출이 없는 날은 DB 쿼리 결과도 아예 없다. => 목록에 아예 등록이 안됨
+        # 날짜는 무조건 10개, 매출이 없는 날은 0원 처리
+        
+        # 10일 전 ~ 오늘까지를 for문으로 
+        
+        for i in range(0, 11):
+            
+            # 시간 / 분 / 초까지 날짜에 들어감 => 2022- 01 -20 양식으로 변경 
+            # 해당 날짜에서 하루 지난 날로 변경
             
             amount_dict = {
-                'date' : str(row[0]),
-                'amount' : int(row[1])
+                'date' : ten_days_ago.strftime('%Y-%m-%d'),
+                'amount' : 0,
             }
+            ten_days_ago += datetime.timedelta(days=1)
+            
             date_amounts.append(amount_dict)
+            
+            
+        
+        # for row in amount_by_date_list:
+            
+        #     amount_dict = {
+        #         'date' : str(row[0]),
+        #         'amount' : int(row[1])
+        #     }
+        #     date_amounts.append(amount_dict)
                             
         return {
             'code' : 200,
