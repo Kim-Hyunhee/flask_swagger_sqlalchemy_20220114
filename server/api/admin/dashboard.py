@@ -53,12 +53,9 @@ class AdminDashboard (Resource):
         
         now = datetime.datetime.utcnow()  # DB가 표준 시간대를 사용하니 => 계산도 표준 시간대 기준으로
         
-        diff_days = datetime.timedelta(days = -2)  # 10일 이전으로 계산 해줄 변수
+        diff_days = datetime.timedelta(days = -10)  # 10일 이전으로 계산 해줄 변수
         
-        ten_days_ago = now + diff_days  # 10일 전 날짜 구해주기
-        
-        print(ten_days_ago)
-        
+        ten_days_ago = now + diff_days  # 10일 전 날짜 구해주기     
         
         amount_by_date_list = db.session.query(db.func.date(LectureUser.created_at), db.func.sum(Lectures.fee))\
             .filter(Lectures.id == LectureUser.lecture_id)\
