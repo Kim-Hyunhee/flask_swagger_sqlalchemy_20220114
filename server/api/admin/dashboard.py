@@ -14,6 +14,11 @@ class AdminDashboard (Resource):
             .filter(Users.email != 'retired')\
             .count()
             
+        # 연습 - 자바 강의를 듣는 사람들의 정보 => (ORM) JOIN 활용
+        
+        # java_user_list = Users.query\
+        #     .filter()
+            
         return {
             'code' : 200,
             'message' : '관리자용 각종 통계 api',
