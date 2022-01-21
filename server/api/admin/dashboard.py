@@ -39,20 +39,37 @@ class AdminDashboard (Resource):
             })
             
         # 일자별로 총 매출 금액
-        amount_lecture_fee = db.session.query(Lectures.title, db.func.sum(Lectures.fee))\
+        
+        now = datetime.datetime.utcnow()
+        diff_day = datetime.timedelta(days=-10)
+        ten_days_ago = now + diff_day
+        
+        
+        amount_lecture_fee = db.session.query(db.func.date(LectureUser.created_at), db.func.sum(Lectures.fee))\
             .filter(Lectures.id == LectureUser.lecture_id)\
-            .filter(LectureUser.created_at > '2022-01-10')\
+            .filter(LectureUser.created_at > ten_days_ago)\
             .group_by(db.func.date(LectureUser.created_at))\
             .all()
             
-        print(amount_lecture_fee)
+            
+        date_amount = []
+        for row in amount_lecture_fee :
+            amount_dict = {
+                'date' : str(row[0]),
+                'amount' : int(row[1])
+            }
+            date_amount.append (amount_dict)
+        
+        
+        
+            
             
         return {
             'code' : 200,
             'message' : '관리자용 각종 통계 api',
             'data' :{
                 'leave_users' : users_count,
-                'amount_lecture' : amount_list,
                 'count_peson' : gender_user,
+                'amount_fee' : date_amount,
             }            
         }
